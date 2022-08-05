@@ -1,9 +1,7 @@
 on:
   push:
     branches: [main]
-    tags: 
-      - 'v*'
-
+    
 name: Create Release
 
 jobs:
@@ -11,6 +9,11 @@ jobs:
     name: Create Release
     runs-on: ubuntu-latest
     steps:
+      - name: Set UUID
+        id: generate-uuid
+        uses: filipstefansson/uuid-action@v1
+        with:
+          name: ${{ github.sha }}
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Create Release
@@ -19,8 +22,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
+          tag_name: "new-release ${{ steps.generate-uuid.outputs.uuid }}"
+          release_name: "new-release ${{ steps.generate-uuid.outputs.uuid }}"
           body_path: "RELEASE_NOTES.md"
           draft: false
           prerelease: false
