@@ -1,13 +1,13 @@
 {
-  "name": "typescript-cli-starter",
+  "name": "tasks-cli",
   "private": true,
   "version": "1.0.0",
-  "description": "A simple and zero-opinion typescript starter template for building cross-platform command line applications.",
-  "author": "Khalid Zoabi <kzoabi@outlook.com>",
+  "description": "A simple CLI based application for managing day to day tasks using the command line",
+  "author": "Ron Gissin",
   "keywords": [
     "typescript",
     "cli",
-    "starter"
+    "tasks"
   ],
   "license": "MIT",
   "main": "./dist/index.js",
