@@ -1,6 +1,5 @@
 {
   "name": "tasks-cli",
-  "private": true,
   "version": "1.0.0",
   "description": "A simple CLI based application for managing day to day tasks using the command line",
   "author": "Ron Gissin",
