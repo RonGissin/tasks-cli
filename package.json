@@ -12,8 +12,10 @@
     "tasks"
   ],
   "license": "MIT",
-  "main": "./dist/index.js",
-  "bin": "./dist/cli.js",
+  "main": "./dist/cli.js",
+  "bin": {
+    "tasks": "./dist/cli.js"
+  },
   "files": [
     "dist/**/*",
     "!dist/**/*.test.js"
