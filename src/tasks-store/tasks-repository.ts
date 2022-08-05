@@ -1,7 +1,7 @@
 import os from 'os';
 import fs from 'fs';
 import { v4 as uuidv4 } from 'uuid';
-import { InternalTask, Status, Task } from './models.js';
+import { InternalTask, StatusType, Task } from './models.js';
 import { toTask } from './model-mapper.js';
 
 export class TaskRepository {
@@ -24,7 +24,7 @@ export class TaskRepository {
 
     public getAllTasks(): Task[] {
         const internalTasks = this._getAllInternalTasks();
-        return internalTasks.map(t => <Task>{ description: t.description, status: t.status });
+        return internalTasks.map(t => toTask(t));
     }
 
     public tryGetTask(description: string): [boolean, Task] {
@@ -48,7 +48,7 @@ export class TaskRepository {
         return true;
     }
 
-    public moveTask(taskToMove: Task, newStatus: Status) {
+    public moveTask(taskToMove: Task, newStatus: StatusType) {
         this.deleteTask(taskToMove) && this.tryAddTask({ description: taskToMove.description, status: newStatus});
     }
 
@@ -79,6 +79,10 @@ export class TaskRepository {
     private _getAllInternalTasks(): InternalTask[] {
         if (this._cachedTasks) {
             return this._cachedTasks;
+        }
+
+        if (!fs.existsSync(this._tasksStorePath)) {
+            return [];
         }
 
         try {

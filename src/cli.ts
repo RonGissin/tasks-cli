@@ -3,7 +3,7 @@
 import { Command } from 'commander'
 import { TaskRepository } from './tasks-store/tasks-repository.js';
 import { showInquiry } from './inquiries/show.js';
-import { Status, Task } from './tasks-store/models.js';
+import { StatusType, Task } from './tasks-store/models.js';
 import { deleteTaskInquiry } from './inquiries/delete.js';
 
 const program = new Command();
@@ -23,17 +23,18 @@ program.command('show')
   .option('-w, --waiting')
   .action((options) => {
     const tasks = tasksRepo.getAllTasks();
-    let includeStatuses: Status[] = [];
+    let includeStatuses: StatusType[] = [];
 
-    options.done && includeStatuses.push("done");
-    options.inProgress && includeStatuses.push("inProgress");
-    options.waiting && includeStatuses.push("waiting");
+    options.done && includeStatuses.push(StatusType.Done);
+    options.inProgress && includeStatuses.push(StatusType.InProgress);
+    options.waiting && includeStatuses.push(StatusType.Waiting);
 
     if (!tasks.length) {
       console.log("You currently have no tasks");
       return;
     }
 
+    console.log(`The TASKS are ${JSON.stringify(tasks)}`);
     showInquiry(tasks, includeStatuses, (t) => tasksRepo.deleteTask(t), (t, s) => tasksRepo.moveTask(t, s), (t, d) => tasksRepo.editTask(t, d));
 });
 

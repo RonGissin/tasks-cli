@@ -1,28 +1,29 @@
 import chalk from "chalk";
 import inquirer from "inquirer";
-import { Status, Task, InProgress, Waiting, Done } from "../tasks-store/models";
+import { StatusType, Task } from "../tasks-store/models";
+import { stringToStatusTypeMap } from "../tasks-store/model-mapper";
 
-export const getShowChoices = (tasks: Task[], statuses: Status[]) => {
+export const getShowChoices = (tasks: Task[], statuses: StatusType[]) => {
     let choiceList = [];
 
-    if (shouldShowTasksOfStatus("inProgress", statuses, tasks)) {
+    if (shouldShowTasksOfStatus(StatusType.InProgress, statuses, tasks)) {
         choiceList.push(...[
             ...statusSeperator(chalk.cyan.bold("IN-PROGRESS")),
-            ...getInProgressTasks(tasks)
+            ...getTasksByStatus(tasks, StatusType.InProgress)
         ]);
     }
 
-    if (shouldShowTasksOfStatus("waiting", statuses, tasks)) {
+    if (shouldShowTasksOfStatus(StatusType.Waiting, statuses, tasks)) {
         choiceList.push(...[
             ...statusSeperator(chalk.blue.bold("WAITING")),
-            ...getWaitingTasks(tasks)
+            ...getTasksByStatus(tasks, StatusType.Waiting)
         ]);
     }
 
-    if (shouldShowTasksOfStatus("done", statuses, tasks)) {
+    if (shouldShowTasksOfStatus(StatusType.Done, statuses, tasks)) {
         choiceList.push(...[
             ...statusSeperator(chalk.green.bold("DONE")),
-            ...getDoneTasks(tasks)
+            ...getTasksByStatus(tasks, StatusType.Done)
         ]);
     }
 
@@ -41,58 +42,44 @@ export const getTaskActionChoices = () => [
     goBackChoice
 ]
 
-export const getChangeTaskStatusChoices = (existingStatus: Status) => [
-    doneStatusChoice(existingStatus),
+export const getChangeTaskStatusChoices = (existingStatus: StatusType) => [
+    getStatusChoiceByStatus("Done", existingStatus),
     separator,
-    inProgressStatusChoice(existingStatus),
+    getStatusChoiceByStatus("In Progress", existingStatus),
     separator,
-    waitingStatusChoice(existingStatus),
+    getStatusChoiceByStatus("Waiting", existingStatus),
     separator,
     goBackChoice
 ]
 
 export const exitChoice = () => [
-    separator,
     chalk.red.bold("exit prompt"),
     separator,
 ]
 
 export const statusSeperator = (header: string) => [
-    separator,
     new inquirer.Separator(header),
-    separator,
-]
+    separator
+];
 
 export const deleteTaskChoice = "Delete task";
 export const changeTaskStatusChoice = "Change task status";
 export const editTaskDescriptionChoice = "Edit task description";
 export const goBackChoice = "Go back";
 
-export const waitingStatusChoice = (status: Status) => {
-    return { name: "Waiting", disabled: status === "waiting" };
+export const getStatusChoiceByStatus = (statusChoiceName: string, currentTaskStatus: StatusType) => {
+    return { name: statusChoiceName, disabled: currentTaskStatus === stringToStatusTypeMap[statusChoiceName] };
 }
 
-export const inProgressStatusChoice = (status: Status) => {
-    return { name: "In Progress", disabled: status === "inprogress" };
+function getTasksByStatus(tasks: Task[], desiredStatus: StatusType) {
+    const filteredTasks = tasks.filter(t => t.status === desiredStatus).map(t => t.description);
+    // insert separators in between tasks.
+    return filteredTasks.reduce(function (acc, currTask) {
+        return acc.concat(currTask).concat(separator);
+    }, [])
 }
 
-export const doneStatusChoice = (status: Status) => {
-    return { name: "Done", disabled: status === "done" };
-}
-
-function getInProgressTasks(tasks: Task[]) {
-    return tasks.filter(t => t.status.toLowerCase() === "inprogress").map(t => t.description);
-}
-
-function getWaitingTasks(tasks: Task[]) {
-    return tasks.filter(t => t.status.toLowerCase() === "waiting").map(t => t.description);
-}
-
-function getDoneTasks(tasks: Task[]) {
-    return tasks.filter(t => t.status.toLowerCase() === "done").map(t => t.description);
-}
-
-function shouldShowTasksOfStatus(status: Status, statusChoices: Status[], tasks: Task[]) {
+function shouldShowTasksOfStatus(status: StatusType, statusChoices: StatusType[], tasks: Task[]) {
     return (statusChoices === undefined || statusChoices.includes(status) || !statusChoices.length) 
     && tasks.some(t => t.status === status)
 }

@@ -1,6 +1,6 @@
 import inquirer from 'inquirer';
 import chalk from 'chalk';
-import { Status, Task } from '../tasks-store/models.js';
+import { StatusType, Task } from '../tasks-store/models.js';
 import { changeTaskStatusChoice, deleteTaskChoice, editTaskDescriptionChoice as editTaskChoice, getShowChoices, getTaskActionChoices, goBackChoice } from './choices.js';
 import { deleteTaskInquiry } from './delete.js';
 import { moveTaskStatusInquiry } from './move.js';
@@ -8,9 +8,9 @@ import { editTaskInquiry } from './edit.js';
 
 export const showInquiry = (
     tasks: Task[],
-    statuses: Status[],
+    statuses: StatusType[],
     deleteTaskCallback: (t: Task) => void,
-    changeTaskStatusCallback: (t: Task, s: Status) => void,
+    changeTaskStatusCallback: (t: Task, s: StatusType) => void,
     editTaskCallback: (t: Task, desc: string) => void
     ) => {
     inquirer
