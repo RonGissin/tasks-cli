@@ -1,6 +1,6 @@
 {
   "name": "tasks-cli",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A simple CLI based application for managing day to day tasks using the command line",
   "author": "Ron Gissin",
   "respository": "https://github.com/RonGissin/tasks-cli",
@@ -12,8 +12,10 @@
     "tasks"
   ],
   "license": "MIT",
-  "main": "./dist/index.js",
-  "bin": "./dist/cli.js",
+  "main": "./dist/cli.js",
+  "bin": {
+    "tasks": "./dist/cli.js"
+  },
   "files": [
     "dist/**/*",
     "!dist/**/*.test.js"
