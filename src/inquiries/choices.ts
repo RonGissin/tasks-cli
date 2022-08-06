@@ -2,9 +2,10 @@ import chalk from "chalk";
 import inquirer from "inquirer";
 import { StatusType, Task } from "../tasks-store/models";
 import { stringToStatusTypeMap } from "../tasks-store/model-mapper";
+import Separator from "inquirer/lib/objects/separator";
 
 export const getShowChoices = (tasks: Task[], statuses: StatusType[]) => {
-    let choiceList = [];
+    let choiceList: (string | Separator)[] = [inquiryTitleSeparator];
 
     if (shouldShowTasksOfStatus(StatusType.InProgress, statuses, tasks)) {
         choiceList.push(...[
@@ -33,6 +34,7 @@ export const getShowChoices = (tasks: Task[], statuses: StatusType[]) => {
 }
 
 export const getTaskActionChoices = () => [
+    inquiryTitleSeparator,
     deleteTaskChoice,
     separator,
     changeTaskStatusChoice,
@@ -43,6 +45,7 @@ export const getTaskActionChoices = () => [
 ]
 
 export const getChangeTaskStatusChoices = (existingStatus: StatusType) => [
+    inquiryTitleSeparator,
     getStatusChoiceByStatus("Done", existingStatus),
     separator,
     getStatusChoiceByStatus("In Progress", existingStatus),
@@ -85,3 +88,4 @@ function shouldShowTasksOfStatus(status: StatusType, statusChoices: StatusType[]
 }
 
 const separator = new inquirer.Separator("---------------------------------------------------");
+const inquiryTitleSeparator = new inquirer.Separator("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");

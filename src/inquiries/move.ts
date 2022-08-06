@@ -9,6 +9,7 @@ export const moveTaskStatusInquiry = (taskToMove: Task, moveStatusCallback: (t: 
       {
         type: 'list',
         name: 'newStatus',
+        pageSize: 20,
         choices: getChangeTaskStatusChoices(taskToMove.status),
         message: `To which status do you want to move your task (${chalk.italic(`current status is ${taskToMove.status}`)}) ?`,
       }])
