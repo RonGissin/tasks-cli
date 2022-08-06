@@ -1,5 +1,8 @@
 # Release
 
+### v1.0.5
+Fix task store initialization asynchronous bug
+
 ### v1.0.4
 Added npm build command to publish workflow
 
