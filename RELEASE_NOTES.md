@@ -1,5 +1,8 @@
 # Release
 
+### v1.0.4
+Added npm build command to publish workflow
+
 ### v1.0.3
 Edit package.json 'main' entry point
 
