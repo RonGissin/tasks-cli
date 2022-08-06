@@ -1,5 +1,8 @@
 # Release
 
+### v1.0.6
+Added introduction with figlet
+
 ### v1.0.5
 Fix task store initialization asynchronous bug
 

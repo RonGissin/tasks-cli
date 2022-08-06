@@ -1,10 +1,12 @@
 #!/usr/bin/env node
 
 import { Command } from 'commander'
+import * as figlet from "figlet";
 import { TaskRepository } from './tasks-store/tasks-repository.js';
 import { showInquiry } from './inquiries/show.js';
 import { StatusType, Task } from './tasks-store/models.js';
 import { deleteTaskInquiry } from './inquiries/delete.js';
+import chalk from 'chalk';
 
 const program = new Command();
 const tasksRepo = new TaskRepository();
@@ -12,8 +14,8 @@ const tasksRepo = new TaskRepository();
 tasksRepo.initTaskStore();
 
 program
-  .name('tasks')
-  .description('CLI for day to day task management')
+  .name('tasks-cli')
+  .description(`${chalk.cyan.bold(figlet.textSync('Tasks-CLI', { font: 'Big Chief' }))} \n${chalk.green.bold('A CLI tool for day to day task management')}`)
   .version('0.0.1');
 
 program.command('show')
@@ -34,7 +36,6 @@ program.command('show')
       return;
     }
 
-    console.log(`The TASKS are ${JSON.stringify(tasks)}`);
     showInquiry(tasks, includeStatuses, (t) => tasksRepo.deleteTask(t), (t, s) => tasksRepo.moveTask(t, s), (t, d) => tasksRepo.editTask(t, d));
 });
 
