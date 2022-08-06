@@ -16,7 +16,7 @@ export class TaskRepository {
         this._tasksStorePath = `${this._tasksStoreDirPath}/tasks-cli_store.json`;
     }
 
-    public InitTaskStore(): void {
+    public initTaskStore(): void {
         if (!fs.existsSync(this._tasksStorePath)) {
             this._writeTasksStore([]);
         }
@@ -81,10 +81,6 @@ export class TaskRepository {
             return this._cachedTasks;
         }
 
-        if (!fs.existsSync(this._tasksStorePath)) {
-            return [];
-        }
-
         try {
             const internalTasksStringified: string = fs.readFileSync(this._tasksStorePath, { encoding: 'utf-8' });
             this._cachedTasks = <InternalTask[]>JSON.parse(internalTasksStringified);
@@ -97,12 +93,7 @@ export class TaskRepository {
 
     private _writeTasksStore(tasksArray: InternalTask[]) {
         this._createDirIfNotExists(this._tasksStoreDirPath);
-
-        fs.writeFile(this._tasksStorePath, JSON.stringify(tasksArray), (err) => {
-            if (err) {
-                console.error(`Error occurred while creating a new tasks store. ${err}`);
-            }
-        });
+        fs.writeFileSync(this._tasksStorePath, JSON.stringify(tasksArray));
     }
 
     private _createDirIfNotExists(path: string) {

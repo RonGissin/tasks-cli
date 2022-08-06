@@ -9,7 +9,7 @@ import { deleteTaskInquiry } from './inquiries/delete.js';
 const program = new Command();
 const tasksRepo = new TaskRepository();
 
-tasksRepo.InitTaskStore();
+tasksRepo.initTaskStore();
 
 program
   .name('tasks')
