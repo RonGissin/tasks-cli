@@ -41,8 +41,6 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
-
 This project is aiming to be a task management tool based entirely in the command line.
 
 If you are a developer, here is why you need it:
