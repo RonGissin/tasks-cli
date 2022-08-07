@@ -7,7 +7,7 @@
     A CLI based tool to manage day to day tasks.
     <br />
     <br />
-    <a href="[https://github.com/othneildrew/Best-README-Template](https://www.npmjs.com/package/tasks-cli)">Go to NPM</a>
+    <a href="[https://www.npmjs.com/package/tasks-cli](https://www.npmjs.com/package/tasks-cli)">Go to NPM</a>
   </p>
 </div>
 
