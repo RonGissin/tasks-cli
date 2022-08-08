@@ -1,5 +1,8 @@
 # Release
 
+### v1.0.7
+Edit Readme
+
 ### v1.0.6
 Added introduction with figlet
 
