@@ -1,6 +1,6 @@
 {
   "name": "tasks-cli",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "A simple CLI based application for managing day to day tasks using the command line",
   "author": "Ron Gissin",
   "respository": "https://github.com/RonGissin/tasks-cli",
